@@ -4,6 +4,7 @@
 	import type { Snippet } from 'svelte';
 	import { ClerkProvider } from 'svelte-clerk';
 	import Footer from '@/lib/components/Footer.svelte';
+	import { Toaster } from '@/lib/components/ui/sonner/index.js';
 
 	const { children }: { children: Snippet } = $props();
 </script>
@@ -12,4 +13,5 @@
 	<Header />
 	{@render children()}
 	<Footer />
+	<Toaster />
 </ClerkProvider>
