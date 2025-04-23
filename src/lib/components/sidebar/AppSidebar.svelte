@@ -1,8 +1,3 @@
-<script lang="ts" module>
-	import type { UserResource } from '@clerk/types';
-	import { data } from '@/lib/components/sidebar/sampleData';
-</script>
-
 <script lang="ts">
 	import NavMain from '@/lib/components/sidebar/NavMain.svelte';
 	import NavProjects from '@/lib/components/sidebar/NavProjects.svelte';
@@ -10,6 +5,9 @@
 	import TeamSwitcher from '@/lib/components/sidebar/TeamSwitcher.svelte';
 	import * as Sidebar from '@/lib/components/ui/sidebar/index.js';
 	import type { ComponentProps } from 'svelte';
+
+	import type { UserResource } from '@clerk/types';
+	import { data } from '@/lib/components/sidebar/sampleData';
 
 	let {
 		ref = $bindable(null),

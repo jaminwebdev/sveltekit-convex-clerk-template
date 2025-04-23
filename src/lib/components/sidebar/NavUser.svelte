@@ -1,3 +1,7 @@
+<script lang="ts" module>
+	export type NavUser = { name: string; email: string; avatar: string };
+</script>
+
 <script lang="ts">
 	import * as Avatar from '@/lib/components/ui/avatar/index.js';
 	import * as DropdownMenu from '@/lib/components/ui/dropdown-menu/index.js';
@@ -10,7 +14,11 @@
 	import LogOut from '@lucide/svelte/icons/log-out';
 	import Sparkles from '@lucide/svelte/icons/sparkles';
 
-	let { user }: { user: { name: string; email: string; avatar: string } } = $props();
+	type Props = {
+		user: NavUser;
+	};
+
+	let { user }: Props = $props();
 	const sidebar = useSidebar();
 </script>
 

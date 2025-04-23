@@ -124,7 +124,7 @@ export const data = {
 		{
 			name: 'Travel',
 			url: '#',
-			icon: Map
+			icon: icons.Map
 		}
 	]
 };

@@ -1,3 +1,11 @@
+<script lang="ts" module>
+	export type Team = {
+		name: string;
+		logo: any;
+		plan: string;
+	};
+</script>
+
 <script lang="ts">
 	import * as DropdownMenu from '@/lib/components/ui/dropdown-menu/index.js';
 	import * as Sidebar from '@/lib/components/ui/sidebar/index.js';
@@ -5,9 +13,11 @@
 	import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down';
 	import Plus from '@lucide/svelte/icons/plus';
 
-	// This should be `Component` after @lucide/svelte updates types
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	let { teams }: { teams: { name: string; logo: any; plan: string }[] } = $props();
+	type Props = {
+		teams: Team[];
+	};
+
+	let { teams }: Props = $props();
 	const sidebar = useSidebar();
 
 	let activeTeam = $state(teams[0]);

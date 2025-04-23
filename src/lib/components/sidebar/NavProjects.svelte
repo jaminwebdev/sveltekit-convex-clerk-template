@@ -1,3 +1,11 @@
+<script lang="ts" module>
+	export type NavProject = {
+		name: string;
+		url: string;
+		icon: any;
+	};
+</script>
+
 <script lang="ts">
 	import * as DropdownMenu from '@/lib/components/ui/dropdown-menu/index.js';
 	import { useSidebar } from '@/lib/components/ui/sidebar/context.svelte.js';
@@ -7,17 +15,11 @@
 	import Forward from '@lucide/svelte/icons/forward';
 	import Trash2 from '@lucide/svelte/icons/trash-2';
 
-	let {
-		projects
-	}: {
-		projects: {
-			name: string;
-			url: string;
-			// This should be `Component` after @lucide/svelte updates types
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			icon: any;
-		}[];
-	} = $props();
+	type Props = {
+		projects: NavProject[];
+	};
+
+	let { projects }: Props = $props();
 
 	const sidebar = useSidebar();
 </script>
