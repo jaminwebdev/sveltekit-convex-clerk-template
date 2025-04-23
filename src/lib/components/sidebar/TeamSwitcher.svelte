@@ -24,7 +24,7 @@
 						class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
 					>
 						<div
-							class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
+							class="bg-sidebar-primary text-muted flex aspect-square size-8 items-center justify-center rounded-lg"
 						>
 							<activeTeam.logo class="size-4" />
 						</div>
