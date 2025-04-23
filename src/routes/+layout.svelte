@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Header from '@/lib/components/Header.svelte';
 	import '../app.css';
 	import type { Snippet } from 'svelte';
 	import { ClerkProvider } from 'svelte-clerk';
@@ -10,7 +9,6 @@
 </script>
 
 <ClerkProvider>
-	<Header />
 	{@render children()}
 	<Footer />
 	<Toaster />

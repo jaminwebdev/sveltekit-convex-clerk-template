@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { SignedIn, SignedOut, UserButton } from 'svelte-clerk/client';
+	import { SignedIn, UserButton } from 'svelte-clerk/client';
 	import ThemeToggle from '@/lib/components/ThemeToggle.svelte';
 	import { Boxes } from '@lucide/svelte';
-	import Container from './Container.svelte';
+	import Container from '../../lib/components/Container.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { LayoutDashboard } from 'lucide-svelte';
 </script>
