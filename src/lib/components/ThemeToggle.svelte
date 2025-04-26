@@ -1,33 +1,21 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { getContext } from 'svelte';
 
 	import { Sun, Moon } from '@lucide/svelte';
 	import * as Dialog from '@/lib/components/ui/dialog/index.js';
-	import { Button, buttonVariants } from '@/lib/components/ui/button/index.js';
+	import { buttonVariants } from '@/lib/components/ui/button/index.js';
 	import * as RadioGroup from '@/lib/components/ui/radio-group/index';
 	import { Label } from '@/lib/components/ui/label';
-	import { themes, type ThemeOptions } from '@/lib/utils/themes';
+	import { themes } from '@/lib/utils/themes';
+	import type { ThemeContext } from '@/stores/ThemeStove.svelte';
 
-	let currentTheme = $state(themes[0]);
 	let isOpen = $state(false);
 
-	onMount(() => {
-		const storedTheme = localStorage.getItem('theme');
-		if (storedTheme) return handleThemeChange(storedTheme);
-		checkSystemColorPreference();
-	});
+	let { currentTheme, handleThemeChange } = $derived(getContext<ThemeContext>('theme'));
 
-	const handleThemeChange = (theme: ThemeOptions) => {
-		currentTheme = theme;
-		document.documentElement.className = '';
-		document.documentElement.classList.add(theme);
-		localStorage.setItem('theme', theme);
+	const handleThemeSelection = (value: string) => {
+		handleThemeChange(value);
 		isOpen = false;
-	};
-
-	const checkSystemColorPreference = () => {
-		const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		currentTheme = prefersDarkScheme ? 'dark' : 'light';
 	};
 </script>
 
@@ -47,7 +35,7 @@
 		</div>
 	</Dialog.Trigger>
 	<Dialog.Content class="max-h-[75vh] overflow-y-scroll">
-		<RadioGroup.Root value={currentTheme} onValueChange={handleThemeChange}>
+		<RadioGroup.Root value={currentTheme} onValueChange={handleThemeSelection}>
 			{#each themes as theme}
 				<div class="flex items-center space-x-2">
 					<RadioGroup.Item value={theme} id={theme} />

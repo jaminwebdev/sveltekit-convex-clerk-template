@@ -1,31 +1,14 @@
 <script lang="ts">
 	import * as Card from '@/lib/components/ui/card/index';
 	import { ScrollArea } from '@/lib/components/ui/scroll-area/index';
-	import { themes, type ThemeOptions } from '@/lib/utils/themes';
+	import { themes } from '@/lib/utils/themes';
 	import { Sun, Moon } from '@lucide/svelte';
 	import * as RadioGroup from '@/lib/components/ui/radio-group/index';
 	import Label from '@/lib/components/ui/label/label.svelte';
-	import { onMount } from 'svelte';
+	import { getContext } from 'svelte';
+	import type { ThemeContext } from '@/stores/ThemeStove.svelte';
 
-	let currentTheme = $state(themes[0]);
-
-	onMount(() => {
-		const storedTheme = localStorage.getItem('theme');
-		if (storedTheme) return handleThemeChange(storedTheme);
-		checkSystemColorPreference();
-	});
-
-	const handleThemeChange = (theme: ThemeOptions) => {
-		currentTheme = theme;
-		document.documentElement.className = '';
-		document.documentElement.classList.add(theme);
-		localStorage.setItem('theme', theme);
-	};
-
-	const checkSystemColorPreference = () => {
-		const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-		currentTheme = prefersDarkScheme ? 'dark' : 'light';
-	};
+	let { currentTheme, handleThemeChange } = $derived(getContext<ThemeContext>('theme'));
 </script>
 
 <Card.Root>
