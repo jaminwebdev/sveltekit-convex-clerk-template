@@ -28,8 +28,3 @@ export const useTheme = () => {
 		handleThemeChange
 	};
 };
-
-export type ThemeContext = {
-	currentTheme: string;
-	handleThemeChange: (theme: string) => void;
-};
