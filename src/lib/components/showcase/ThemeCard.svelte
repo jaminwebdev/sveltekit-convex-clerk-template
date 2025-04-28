@@ -5,10 +5,9 @@
 	import { Sun, Moon } from '@lucide/svelte';
 	import * as RadioGroup from '@/lib/components/ui/radio-group/index';
 	import Label from '@/lib/components/ui/label/label.svelte';
-	import { getContext } from 'svelte';
-	import type { ThemeContext } from '@/stores/ThemeStove.svelte';
+	import { getThemeContext } from '@/contexts/ThemeContext';
 
-	let { currentTheme, handleThemeChange } = $derived(getContext<ThemeContext>('theme'));
+	let { currentTheme, handleThemeChange } = $derived(getThemeContext());
 </script>
 
 <Card.Root>

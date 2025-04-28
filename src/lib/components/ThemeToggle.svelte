@@ -1,17 +1,15 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
-
 	import { Sun, Moon } from '@lucide/svelte';
 	import * as Dialog from '@/lib/components/ui/dialog/index.js';
 	import { buttonVariants } from '@/lib/components/ui/button/index.js';
 	import * as RadioGroup from '@/lib/components/ui/radio-group/index';
 	import { Label } from '@/lib/components/ui/label';
 	import { themes } from '@/lib/utils/themes';
-	import type { ThemeContext } from '@/stores/ThemeStove.svelte';
+	import { getThemeContext } from '@/contexts/ThemeContext';
 
 	let isOpen = $state(false);
 
-	let { currentTheme, handleThemeChange } = $derived(getContext<ThemeContext>('theme'));
+	let { currentTheme, handleThemeChange } = $derived(getThemeContext());
 
 	const handleThemeSelection = (value: string) => {
 		handleThemeChange(value);
