@@ -16,7 +16,8 @@
 			</a>
 			<div class="flex items-center gap-4">
 				<ThemeToggle />
-				<Button href="/dashboard" size="icon" variant="outline">
+				<Button href="/dashboard" variant="outline">
+					Dashboard
 					<LayoutDashboard />
 				</Button>
 				<SignedIn>
