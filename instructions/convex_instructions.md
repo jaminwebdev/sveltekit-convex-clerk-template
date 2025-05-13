@@ -128,6 +128,171 @@ Write helper functions in your convex/ directory and use them within your Convex
 
 Helper functions allow sharing code while still executing the entire query or mutation in a single transaction. For actions, sharing code via helper functions instead of using ctx.runAction reduces function calls and resource usage.
 
+### Bad Example
+
+**❌** This example overuses `ctx.runQuery` and `ctx.runMutation`, which is discussed more in the [Avoid sequential `ctx.runMutation` / `ctx.runQuery` from actions](https://docs.convex.dev/understanding/best-practices/#avoid-sequential-ctx-runmutation-ctx-runquery-from-actions) section.
+
+**convex/users.ts**
+```ts
+export const getCurrentUser = query({
+  args: {},
+  handler: async (ctx) => {
+    const userIdentity = await ctx.auth.getUserIdentity();
+    if (userIdentity === null) {
+      throw new Error("Unauthorized");
+    }
+    const user = /* query ctx.db to load the user */
+    const userSettings = /* load other documents related to the user */
+    return { user, settings: userSettings };
+  },
+});
+```
+
+**convex/conversations.ts**
+```ts
+export const listMessages = query({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, { conversationId }) => {
+	  // ❌ runQuery
+    const user = await ctx.runQuery(api.users.getCurrentUser); 
+    const conversation = await ctx.db.get(conversationId);
+    if (conversation === null || !conversation.members.includes(user._id)) {
+      throw new Error("Unauthorized");
+    }
+    const messages = /* query ctx.db to load the messages */
+    return messages;
+  },
+});
+
+export const summarizeConversation = action({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, { conversationId }) => {
+   // ❌ runQuery
+    const messages = await ctx.runQuery(api.conversations.listMessages, {
+      conversationId,
+    });
+    const summary = /* call some external service to summarize the conversation */
+    await ctx.runMutation(api.conversations.addSummary, {
+      conversationId,
+      summary,
+    });
+  },
+});
+```
+
+### Good Example
+
+**✅** Most of the code here is now in the `convex/model` directory. The API for this application is in `convex/conversations.ts`, which contains very little code itself.
+
+**convex/model/users.ts**
+```ts
+import { QueryCtx } from '../_generated/server';
+
+export async function getCurrentUser(ctx: QueryCtx) {
+  const userIdentity = await ctx.auth.getUserIdentity();
+  if (userIdentity === null) {
+    throw new Error("Unauthorized");
+  }
+  const user = /* query ctx.db to load the user */
+  const userSettings = /* load other documents related to the user */
+  return { user, settings: userSettings };
+}
+```
+
+**convex/model/conversations.ts**
+```ts
+import { QueryCtx, MutationCtx } from '../_generated/server';
+import * as Users from './users';
+
+export async function ensureHasAccess(
+  ctx: QueryCtx,
+  { conversationId }: { conversationId: Id<"conversations"> },
+) {
+  const user = await Users.getCurrentUser(ctx);
+  const conversation = await ctx.db.get(conversationId);
+  if (conversation === null || !conversation.members.includes(user._id)) {
+    throw new Error("Unauthorized");
+  }
+  return conversation;
+}
+
+export async function listMessages(
+  ctx: QueryCtx,
+  { conversationId }: { conversationId: Id<"conversations"> },
+) {
+  await ensureHasAccess(ctx, { conversationId });
+  const messages = /* query ctx.db to load the messages */
+  return messages;
+}
+
+export async function addSummary(
+  ctx: MutationCtx,
+  {
+    conversationId,
+    summary,
+  }: { conversationId: Id<"conversations">; summary: string },
+) {
+  await ensureHasAccess(ctx, { conversationId });
+  await ctx.db.patch(conversationId, { summary });
+}
+
+export async function generateSummary(
+  messages: Doc<"messages">[],
+  conversationId: Id<"conversations">,
+) {
+  const summary = /* call some external service to summarize the conversation */
+  return summary;
+}
+```
+
+**convex/conversations.ts**
+```ts
+import * as Conversations from './model/conversations';
+
+export const addSummary = internalMutation({
+  args: {
+    conversationId: v.id("conversations"),
+    summary: v.string(),
+  },
+  handler: async (ctx, { conversationId, summary }) => {
+    await Conversations.addSummary(ctx, { conversationId, summary });
+  },
+});
+
+export const listMessages = internalQuery({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, { conversationId }) => {
+    return Conversations.listMessages(ctx, { conversationId });
+  },
+});
+
+export const summarizeConversation = action({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, { conversationId }) => {
+    const messages = await ctx.runQuery(internal.conversations.listMessages, {
+      conversationId,
+    });
+    const summary = await Conversations.generateSummary(
+      messages,
+      conversationId,
+    );
+    await ctx.runMutation(internal.conversations.addSummary, {
+      conversationId,
+      summary,
+    });
+  },
+});
+```
+
+
 ## Prefer queries and mutations over actions
 You should generally avoid using actions when the same goal can be achieved using queries or mutations. Since actions can have side effects, they can't be automatically retried nor their results cached. Actions should be used in more limited scenarios, such as calling third-party services.
 
