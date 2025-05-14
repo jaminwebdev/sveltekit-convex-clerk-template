@@ -13,13 +13,20 @@
 	import CreditCard from '@lucide/svelte/icons/credit-card';
 	import LogOut from '@lucide/svelte/icons/log-out';
 	import Sparkles from '@lucide/svelte/icons/sparkles';
+	import { useClerkContext } from 'svelte-clerk';
 
 	type Props = {
 		user: NavUser;
 	};
 
 	let { user }: Props = $props();
+	const { clerk } = useClerkContext();
 	const sidebar = useSidebar();
+
+	const logout = () => {
+		if (!clerk) return;
+		clerk.signOut();
+	};
 </script>
 
 <Sidebar.Menu>
@@ -86,8 +93,10 @@
 				</DropdownMenu.Group>
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item>
-					<LogOut />
-					Log out
+					<button onclick={logout} class="flex items-center gap-2">
+						<LogOut />
+						Log out
+					</button>
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
