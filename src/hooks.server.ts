@@ -4,7 +4,5 @@ import { CLERK_SECRET_KEY } from '$env/static/private';
 
 export const handle = withClerkHandler({
 	publishableKey: PUBLIC_CLERK_PUBLISHABLE_KEY,
-	secretKey: CLERK_SECRET_KEY,
-	afterSignInUrl: '/dashboard',
-	afterSignUpUrl: '/dashboard'
+	secretKey: CLERK_SECRET_KEY
 });
