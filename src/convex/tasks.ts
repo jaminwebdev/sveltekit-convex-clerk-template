@@ -17,8 +17,10 @@ async function authorizeTaskAccess(
 export const get = query({
 	args: { user_id: v.string() },
 	handler: async (ctx, args) => {
-		const tasks = await ctx.db.query('tasks').collect();
-		return tasks.filter((task) => task.user_id === args.user_id);
+		return await ctx.db
+			.query('tasks')
+			.withIndex('by_user_id', (q) => q.eq('user_id', args.user_id))
+			.collect();
 	}
 });
 

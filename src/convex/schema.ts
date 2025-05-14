@@ -7,7 +7,7 @@ export default defineSchema(
 			taskBody: v.string(),
 			isCompleted: v.boolean(),
 			user_id: v.string()
-		})
+		}).index('by_user_id', ['user_id'])
 	},
 	{
 		schemaValidation: true
