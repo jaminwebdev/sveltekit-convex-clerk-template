@@ -5,7 +5,7 @@
 
 <SignedOut>
 	<div class="flex items-center justify-center py-10">
-		<SignUp />
+		<SignUp redirectUrl="/dashboard" />
 	</div>
 </SignedOut>
 <SignedIn>
