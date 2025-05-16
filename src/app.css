@@ -35,6 +35,14 @@
 
 @font-face {
 	font-family: 'Inter';
+	src: url('$lib/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+	font-weight: 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Inter';
 	src: url('$lib/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
 	font-weight: 400;
 	font-style: italic;
