@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Container from '@/lib/components/Container.svelte';
-	import ButtonsExample from '@/lib/components/showcase/ButtonsExample.svelte';
-	import ThemeCard from '@/lib/components/showcase/ThemeCard.svelte';
-	import NotificationCard from '@/lib/components/showcase/NotificationCard.svelte';
-	import AccountCard from '@/lib/components/showcase/AccountCard.svelte';
-	import TaskCard from '@/lib/components/showcase/TaskCard.svelte';
+	import ButtonsExample from '@/lib/components/dashboard/ButtonsExample.svelte';
+	import ThemeCard from '@/lib/components/dashboard/ThemeCard.svelte';
+	import NotificationCard from '@/lib/components/dashboard/NotificationCard.svelte';
+	import AccountCard from '@/lib/components/dashboard/AccountCard.svelte';
+	import TaskCard from '@/lib/components/dashboard/TaskCard.svelte';
 </script>
 
 <main class="grid gap-6 py-10">
