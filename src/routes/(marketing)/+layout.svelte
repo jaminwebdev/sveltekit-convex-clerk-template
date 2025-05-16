@@ -1,5 +1,5 @@
 <script>
-	import MarketingHeader from '@/routes/(marketing)/MarketingHeader.svelte';
+	import MarketingHeader from '@/lib/components/marketing/navigation/MarketingHeader.svelte';
 	let { children } = $props();
 </script>
 
