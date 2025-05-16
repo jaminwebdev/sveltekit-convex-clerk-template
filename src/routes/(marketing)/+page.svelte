@@ -1,5 +1,10 @@
 <script lang="ts">
 	import Container from '@/lib/components/Container.svelte';
+	import MarketingFeatures from '@/lib/components/marketing/sections/MarketingFeatures.svelte';
+	import MarketingInfo from '@/lib/components/marketing/sections/MarketingInfo.svelte';
+	import MarketingInsights from '@/lib/components/marketing/sections/MarketingInsights.svelte';
+	import MarketingTeam from '@/lib/components/marketing/sections/MarketingTeam.svelte';
+	import MarketingTestimonials from '@/lib/components/marketing/sections/MarketingTestimonials.svelte';
 	import Button from '@/lib/components/ui/button/button.svelte';
 </script>
 
@@ -44,3 +49,8 @@
 		</div>
 	</Container>
 </section>
+<MarketingFeatures />
+<MarketingInfo />
+<MarketingTestimonials />
+<MarketingTeam />
+<MarketingInsights />
