@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { useClerkContext } from 'svelte-clerk/client';
 	import * as Card from '@/lib/components/ui/card/index';
-	import TaskInput from '@/lib/components/showcase/TaskInput.svelte';
-	import TaskList from '@/lib/components/showcase/TaskList.svelte';
+	import TaskInput from '@/lib/components/dashboard/TaskInput.svelte';
+	import TaskList from '@/lib/components/dashboard/TaskList.svelte';
 
 	const ctx = useClerkContext();
 	const user_id = $derived(ctx.auth.userId as string);
