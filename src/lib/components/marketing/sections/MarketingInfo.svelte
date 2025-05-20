@@ -1,7 +1,7 @@
 <script>
 	import { ChevronRight } from 'lucide-svelte';
 	import PillSubheading from '../../PillSubheading.svelte';
-	import Button from '../../ui/button/button.svelte';
+	import { Button } from '@/lib/components/ui/button';
 </script>
 
 <section class="relative mr-0 py-24 lg:mr-5 xl:mr-0">

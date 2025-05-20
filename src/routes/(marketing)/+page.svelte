@@ -5,7 +5,7 @@
 	import MarketingInsights from '@/lib/components/marketing/sections/MarketingInsights.svelte';
 	import MarketingTeam from '@/lib/components/marketing/sections/MarketingTeam.svelte';
 	import MarketingTestimonials from '@/lib/components/marketing/sections/MarketingTestimonials.svelte';
-	import Button from '@/lib/components/ui/button/button.svelte';
+	import { Button } from '@/lib/components/ui/button';
 </script>
 
 <section class="mx-auto max-w-screen-2xl px-4 md:px-8">

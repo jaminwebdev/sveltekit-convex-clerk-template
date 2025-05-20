@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '@/lib/components/ui/button/index.js';
+	import { Button } from '@/lib/components/ui/button';
 	import { Checkbox } from '@/lib/components/ui/checkbox/index.js';
 	import { Label } from '@/lib/components/ui/label/index.js';
 	import { CircleX } from '@lucide/svelte';

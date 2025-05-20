@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Container from '@/lib/components/Container.svelte';
 	import PillSubheading from '@/lib/components/PillSubheading.svelte';
-	import Button from '@/lib/components/ui/button/button.svelte';
+	import { Button } from '@/lib/components/ui/button';
 </script>
 
 <Container>

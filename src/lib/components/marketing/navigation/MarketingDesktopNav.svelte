@@ -2,7 +2,7 @@
 	import { SignedIn, UserButton } from 'svelte-clerk/client';
 	import ThemeToggle from '@/lib/components/ThemeToggle.svelte';
 	import Container from '@/lib/components/Container.svelte';
-	import { Button } from '$lib/components/ui/button/index.js';
+	import { Button } from '@/lib/components/ui/button';
 	import { LayoutDashboard } from 'lucide-svelte';
 	import SiteLogo from '@/lib/components/SiteLogo.svelte';
 </script>

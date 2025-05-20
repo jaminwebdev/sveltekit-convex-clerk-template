@@ -1,7 +1,7 @@
 <script>
 	import Container from '@/lib/components/Container.svelte';
 	import SiteLogo from '@/lib/components/SiteLogo.svelte';
-	import Button from '../../ui/button/button.svelte';
+	import { Button } from '@/lib/components/ui/button';
 </script>
 
 <footer class="pt-4 sm:pt-6 lg:pt-8">
@@ -14,15 +14,13 @@
 					<span class="font-bold tracking-widest">Newsletter</span>
 					<p>Subscribe to our newsletter</p>
 				</div>
-
-				<form class="flex w-full gap-2 md:max-w-md">
+				<div class="flex w-full gap-2 md:max-w-md">
 					<input
 						placeholder="Email"
 						class="w-full flex-1 rounded border bg-gray-50 px-3 py-2 placeholder-gray-500 ring-indigo-300 transition duration-100 outline-none focus:ring"
 					/>
-
-					<Button size="lg">Send</Button>
-				</form>
+				</div>
+				<Button>Hello</Button>
 			</div>
 		</div>
 

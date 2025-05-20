@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from '@/lib/components/ui/button/index.js';
+	import { Button } from '@/lib/components/ui/button';
 	import { Input } from '@/lib/components/ui/input/index';
 	import { api } from '@/convex/_generated/api';
 	import { useConvexClient } from 'convex-svelte';
