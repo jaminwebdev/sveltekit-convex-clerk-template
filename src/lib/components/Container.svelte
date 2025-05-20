@@ -10,6 +10,6 @@
 	const { classes, children }: Props = $props();
 </script>
 
-<div class={cn('mx-auto max-w-6xl', classes)}>
+<div class={cn(classes, 'mx-auto max-w-6xl')}>
 	{@render children()}
 </div>
