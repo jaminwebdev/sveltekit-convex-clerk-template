@@ -4227,3 +4227,11 @@
 		cursor: pointer;
 	}
 }
+
+.apexcharts-tooltip,
+.apexcharts-tooltip-title {
+	background: var(--background) !important;
+	color: var(--color-foreground) !important; /* optional: match your text color */
+	border: none !important;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* optional: match your design */
+}

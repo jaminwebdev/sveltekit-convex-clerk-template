@@ -5,6 +5,9 @@
 	import NotificationCard from '@/lib/components/dashboard/NotificationCard.svelte';
 	import AccountCard from '@/lib/components/dashboard/AccountCard.svelte';
 	import TaskCard from '@/lib/components/dashboard/TaskCard.svelte';
+	import LineChartCard from '@/lib/components/dashboard/LineChartCard.svelte';
+	import AreaChartCard from '@/lib/components/dashboard/AreaChartCard.svelte';
+	import BarChartCard from '@/lib/components/dashboard/BarChartCard.svelte';
 </script>
 
 <main class="grid gap-6 py-10">
@@ -18,5 +21,8 @@
 	</div>
 	<Container classes="grid grid-cols-1 md:grid-cols-3 gap-6">
 		<AccountCard />
+		<LineChartCard />
+		<AreaChartCard />
+		<BarChartCard />
 	</Container>
 </main>
