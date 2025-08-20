@@ -20,7 +20,7 @@
 	};
 
 	let { user }: Props = $props();
-	const { clerk } = useClerkContext();
+	const { clerk } = $derived(useClerkContext());
 	const sidebar = useSidebar();
 
 	const logout = () => {
