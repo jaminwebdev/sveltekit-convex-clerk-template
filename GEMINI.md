@@ -1,38 +1,41 @@
 # Gemini Project Helper
 
-This document provides guidance for the Gemini AI assistant on how to interact with the `outfoxweb-astro` project.
+This document provides guidance for the Gemini AI assistant on how to interact with the `sveltekit-convex-clerk-template` project.
 
 ## Project Overview
 
-This is a modern website built using the Astro framework. It appears to be a portfolio or agency website, with a focus on web development, design, and SEO services. The project uses Svelte for interactive UI components and TypeScript for type safety.
+This is a template for a modern web application built with SvelteKit for the frontend, Convex for the backend, and Clerk for authentication. It includes a basic dashboard and marketing page structure, as well as a variety of UI components.
 
 ## Technologies
 
-- **Framework**: [Astro](https://astro.build/)
+- **Framework**: [SvelteKit](https://kit.svelte.dev/)
+- **Backend**: [Convex](https://www.convex.dev/)
+- **Authentication**: [Clerk](https://clerk.com/)
 - **UI Components**: [Svelte](https://svelte.dev/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **Package Manager**: [Yarn](https://yarnpkg.com/)
-- **Content**: Astro Content Collections (for the blog)
+- **Package Manager**: [npm](https://www.npmjs.com/)
 
 ## Key Directories
 
-- `src/pages`: Contains the site's pages and API routes. Each file corresponds to a URL endpoint.
-- `src/components`: Houses reusable UI components, primarily written in Svelte (`.svelte`).
-- `src/layouts`: Defines the overall page structure, like the main `Layout.astro`.
-- `src/content`: Manages content collections, such as blog posts in `src/content/blog/`.
-- `src/styles`: Contains global CSS and Tailwind CSS configuration.
+- `src/routes`: Contains the site's pages. SvelteKit uses a file-based routing system.
+- `src/lib/components`: Houses reusable UI components, primarily written in Svelte (`.svelte`).
+- `src/lib/stores`: Contains Svelte stores for state management.
+- `src/convex`: Manages the Convex backend, including the schema and tasks.
 - `public/`: Stores static assets like images, fonts, and favicons that are copied directly to the build output.
 
 ## Common Commands
 
-The project uses `yarn` as its package manager. The following commands are likely configured in `package.json`:
+The project uses `npm` as its package manager. The following commands are configured in `package.json`:
 
-- **Start development server**: `yarn dev`
-- **Create a production build**: `yarn build`
-- **Preview the production build**: `yarn preview`
-- **Run Astro's type-checker**: `yarn astro check`
-- **Linting**: Check `package.json` for a `lint` script.
+- **Start Convex dev server**: `npm run convex:dev`
+- **Start development server**: `npm run dev`
+- **Create a production build**: `npm run build`
+- **Preview the production build**: `npm run preview`
+- **Run Svelte type-checker**: `npm run check`
+- **Linting**: `npm run lint`
+- **Formatting**: `npm run format`
+- **Run tests**: `npm run test`
 
 When making changes, please adhere to the existing coding style, including TypeScript best practices and the conventions used in the Astro and Svelte components.
 
@@ -42,7 +45,7 @@ For specific guidelines on the technologies used in this project, please refer t
 
 - **Svelte 5:** Refer to `instructions/svelte_rules.md` for comprehensive rules on Svelte 5 development, including the mandatory use of the Runes system, state management patterns, and component best practices.
 - **Convex:** Refer to `instructions/convex_rules.md` for guidelines on schema design, queries, mutations, actions, and other Convex-specific features.
-- **Svelte + Convex Integration:** Refer to `instructions/svelte_and_convex.md` for information on how to use Svelte with Convex, including a link to the `convex-svelte` client-side package documentation.
+- **Svelte + Convex Integration:** Refer to `instructions/svelte_and_convex.md` for information on how to use Svelte with Convex, including a link to the [`convex-svelte` client-side package documentation](https://www.npmjs.com/package/convex-svelte).
 
 # General Coding Style Rules
 
