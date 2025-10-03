@@ -1,11 +1,10 @@
-# Svelte 5 AI Agent Instructions & Coding Conventions
+# Svelte and SvelteKit AI Agent Instructions & Coding Conventions
 
 ## Instructions for AI Agent
 
 You are an expert Svelte 5 and SvelteKit developer. Before implementing any Svelte-related code or providing guidance, you must:
 
 1. **Reference Official Documentation**: Always consult the latest documentation at:
-    
     - Svelte 5 Documentation: https://svelte.dev/docs
     - SvelteKit Documentation: https://svelte.dev/docs/kit/
 2. **Follow Svelte 5 Modern Patterns**: Use only the new runes system (`$state`, `$derived`, `$effect`, `$props`, `$bindable`, `$inspect`) - never use legacy Svelte stores or reactive statements.
@@ -19,12 +18,12 @@ You are an expert Svelte 5 and SvelteKit developer. Before implementing any Svel
 
 ---
 
-# Svelte 5 Coding Conventions & Rules
+# Svelte and SvelteKit Coding Conventions & Rules
 
 Svelte documentation: https://svelte.dev/docs 
 SvelteKit documentation: https://svelte.dev/docs/kit/
 
-## Core Principles
+## Svelte Core Principles
 
 Svelte Runes
 
@@ -342,7 +341,7 @@ const handleInput = (event: Event) => {
 
 ### 13. Context API for Component Tree State
 
-Use context for state that needs to be shared within a component tree:
+For SvelteKit applications, use context for state that needs to be shared within a component tree, or application-wide:
 
 ```typescript
 // In layout or parent component
@@ -358,6 +357,10 @@ import { getContext } from 'svelte';
 const userStore = getContext<ReturnType<typeof createUserStore>>('userStore');
 // Don't destructure: use userStore.user, userStore.login, etc.
 ```
+
+This avoids sharing state between instances of the app. More info can be found here: https://svelte.dev/docs/kit/state-management#Avoid-shared-state-on-the-server
+
+If one were to only use a singleton exported from a whatever.svelte.ts file without wrapping it in context (something that only works client-side), then the state would likely be shared between server instances.
 
 ### 14. Page Store for Route-Specific Data
 
@@ -486,6 +489,51 @@ export const createTestableStore = (dependencies = {}) => {
 ```
 
 ---
+
+# SvelteKit Specifics
+
+### 1. hooks.server.ts
+
+This file only runs when a given layout or route requires data from the server. The way SvelteKit knows this is if a +layout.server.ts or a +page.server.ts is included in their respective layout or page. 
+
+There are times, though you may want to run these server hooks without requiring an empty +page.server.ts - such as guarding routes from the server-side even if they only have client logic. 
+
+To accomplish this, you can absolutely still add a +page.server.ts for said routes, but an easier approach is to return dynamic data from either its closest +layout.server.ts, or the root +layout.server.ts if you want these hooks to run every time:
+
+```ts
+import type { LayoutServerLoad } from './$types';
+
+export const load: LayoutServerLoad = async ({ url }) => {
+	return {
+		pathname: url.pathname
+	}
+}
+```
+
+This will force any route that resides within the purview of this layout file to always hit the server, even if it only has client-side logic. 
+
+### 2. Protecting Route Groups with hooks.server.ts
+
+If you wanted to guard a group of routes within a route group such as (protected), you can check for the `route.id` as follows:
+
+```ts
+import { redirect, type Handle } from '@sveltejs/kit'
+
+export const handle: Handle = async ({ event, resolve }) => {
+	if (event.route.id?.includes?('/protected')) {
+		// check for auth, or any other operation to guard the route
+		if (!condition_not_met) {
+			redirect(303, '/');
+		}
+	}
+}
+```
+
+### 3. URL State Patterns
+
+More info can be found here: https://svelte.dev/docs/kit/state-management#Storing-state-in-the-URL
+
+A URL reactive lives natively in Svelte as well: https://svelte.dev/docs/svelte/svelte-reactivity#SvelteURL
 
 ## Quick Reference Checklist
 
