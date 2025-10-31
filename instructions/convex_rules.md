@@ -1,7 +1,3 @@
-## description: 
-Guidelines and best practices for building Convex projects, including database schema design, queries, mutations, and real-world examples
-
-
 # Convex guidelines
 ## Function guidelines
 ### New function syntax
@@ -94,7 +90,7 @@ Convex Type  | TS/JS type  |  Example Usage         | Validator for argument val
 | Boolean     | boolean     | `true`                 | `v.boolean()`                                  |
 | String      | string      | `"abc"`                | `v.string()`                                   | Strings are stored as UTF-8 and must be valid Unicode sequences. Strings must be smaller than the 1MB total size limit when encoded as UTF-8.                                                         |
 | Bytes       | ArrayBuffer | `new ArrayBuffer(8)`   | `v.bytes()`                                    | Convex supports first class bytestrings, passed in as `ArrayBuffer`s. Bytestrings must be smaller than the 1MB total size limit for Convex types.                                                     |
-| Array       | Array]      | `[1, 3.2, "abc"]`      | `v.array(values)`                              | Arrays can have at most 8192 values.                                                                                                                                                                  |
+| Array       | Array       | `[1, 3.2, "abc"]`      | `v.array(values)`                              | Arrays can have at most 8192 values.                                                                                                                                                                  |
 | Object      | Object      | `{a: "abc"}`           | `v.object({property: value})`                  | Convex only supports "plain old JavaScript objects" (objects that do not have a custom prototype). Objects can have at most 1024 entries. Field names must be nonempty and not start with "$" or "_". |
 | Record      | Record      | `{"a": "1", "b": "2"}` | `v.record(keys, values)`                       | Records are objects at runtime, but can have dynamic keys. Keys must be only ASCII characters, nonempty, and not start with "$" or "_".                                                               |
 
@@ -289,8 +285,9 @@ export default crons;
 - The `ctx.storage.getUrl()` method returns a signed URL for a given file. It returns `null` if the file doesn't exist.
 - Do NOT use the deprecated `ctx.storage.getMetadata` call for loading a file's metadata.
 
-                    Instead, query the `_storage` system table. For example, you can use `ctx.db.system.get` to get an `Id<"_storage">`.
-```
+Instead, query the `_storage` system table. For example, you can use `ctx.db.system.get` to get an `Id<"_storage">`.
+
+```ts
 import { query } from "./_generated/server";
 import { Id } from "./_generated/dataModel";
 
@@ -409,10 +406,10 @@ Internal Functions:
 4. Schema Design:
 - users
   - validator: { name: v.string() }
-  - indexes: <none>
+  - indexes: \<none>
 - channels
   - validator: { name: v.string() }
-  - indexes: <none>
+  - indexes: \<none>
 - messages
   - validator: { channelId: v.id("channels"), authorId: v.optional(v.id("users")), content: v.string() }
   - indexes
@@ -422,8 +419,6 @@ Internal Functions:
 - AI response generation runs asynchronously after each user message
 - Uses OpenAI's GPT-4 to generate contextual responses
 - Maintains conversation context using recent message history
-
-
 ### Implementation
 
 #### package.json
