@@ -3,5 +3,5 @@
 </script>
 
 <div class="flex items-center justify-center py-10">
-	<SignIn redirectUrl="/dashboard" />
+	<SignIn afterSignInUrl="/dashboard" redirectUrl="/dashboard" />
 </div>
