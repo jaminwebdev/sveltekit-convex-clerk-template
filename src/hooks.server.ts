@@ -8,8 +8,7 @@ const PROTECTED_ROUTE_PREFIXES = ['/(dashboard)'] as const;
 
 const clerkHandle = withClerkHandler({
 	publishableKey: PUBLIC_CLERK_PUBLISHABLE_KEY,
-	secretKey: CLERK_SECRET_KEY,
-	signInUrl: '/login'
+	secretKey: CLERK_SECRET_KEY
 });
 
 const authRedirectHandle: Handle = async ({ event, resolve }) => {
