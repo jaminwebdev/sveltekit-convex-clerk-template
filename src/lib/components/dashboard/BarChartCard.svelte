@@ -1,59 +1,98 @@
 <script lang="ts">
-	import * as Card from '@/lib/components/ui/card/index';
-	import { onMount } from 'svelte';
-	import ApexCharts from 'apexcharts';
-	let chartEl: HTMLDivElement;
+	import * as Card from '$lib/components/ui/card/index.js';
+	import * as Chart from '$lib/components/ui/chart/index.js';
+	import { scaleBand } from 'd3-scale';
+	import { BarChart, Highlight, type ChartContextValue } from 'layerchart';
+	import TrendingUpIcon from '@lucide/svelte/icons/trending-up';
+	import { cubicInOut } from 'svelte/easing';
 
-	onMount(() => {
-		if (typeof window === 'undefined') return;
+	const chartData = [
+		{ month: 'January', desktop: 186, mobile: 80 },
+		{ month: 'February', desktop: 305, mobile: 200 },
+		{ month: 'March', desktop: 237, mobile: 120 },
+		{ month: 'April', desktop: 73, mobile: 190 },
+		{ month: 'May', desktop: 209, mobile: 130 },
+		{ month: 'June', desktop: 214, mobile: 140 }
+	];
 
-		const options = {
-			chart: { type: 'bar', height: '100%', toolbar: { show: false } },
-			series: [
-				{ name: 'Sales', data: [10, 41, 35, 51, 49, 62, 69, 91, 148] },
-				{ name: 'Another', data: [14, 33, 31, 13, 45, 52, 76, 91, 148] }
-			],
-			xaxis: {
-				categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-				labels: {
-					style: {
-						colors: 'var(--color-foreground)'
-					}
-				}
-			},
-			yaxis: {
-				labels: {
-					style: {
-						colors: 'var(--color-foreground)'
-					}
-				}
-			},
-			colors: ['var(--color-primary)', 'var(--color-secondary)'],
-			grid: { borderColor: '#e5e7eb' },
-			dataLabels: { enabled: false },
-			stroke: { show: false },
-			markers: {
-				size: 4,
-				colors: ['var(--color-primary)', 'var(--color-secondary)'],
-				strokeColors: '#fff',
-				strokeWidth: 2
-			},
-			legend: {
-				labels: {
-					colors: 'var(--color-foreground)'
-				}
-			}
-		};
-		new ApexCharts(chartEl, options).render();
-	});
+	const chartConfig = {
+		desktop: { label: 'Desktop', color: 'var(--chart-1)' },
+		mobile: { label: 'Mobile', color: 'var(--chart-2)' }
+	} satisfies Chart.ChartConfig;
+
+	let context = $state<ChartContextValue>();
 </script>
 
 <Card.Root>
 	<Card.Header>
-		<Card.Title>Bar Chart Example</Card.Title>
-		<Card.Description>Monthly sales trend</Card.Description>
+		<Card.Title>Bar Chart - Stacked + Legend</Card.Title>
+		<Card.Description>January - June 2024</Card.Description>
 	</Card.Header>
-	<Card.Content style="height: 300px;">
-		<div bind:this={chartEl} style="height: 100%;"></div>
+	<Card.Content>
+		<Chart.Container config={chartConfig}>
+			<BarChart
+				bind:context
+				data={chartData}
+				xScale={scaleBand().padding(0.25)}
+				x="month"
+				axis="x"
+				rule={false}
+				series={[
+					{
+						key: 'desktop',
+						label: 'Desktop',
+						color: chartConfig.desktop.color,
+						props: { rounded: 'bottom' }
+					},
+					{
+						key: 'mobile',
+						label: 'Mobile',
+						color: chartConfig.mobile.color
+					}
+				]}
+				seriesLayout="stack"
+				props={{
+					bars: {
+						stroke: 'none',
+						initialY: context?.height,
+						initialHeight: 0,
+						motion: {
+							y: { type: 'tween', duration: 500, easing: cubicInOut },
+							height: { type: 'tween', duration: 500, easing: cubicInOut }
+						}
+					},
+					highlight: { area: false },
+					xAxis: { format: (d) => d.slice(0, 3) }
+				}}
+				legend
+			>
+				{#snippet belowMarks()}
+					<Highlight area={{ class: 'fill-muted' }} />
+				{/snippet}
+
+				{#snippet tooltip()}
+					<Chart.Tooltip />
+				{/snippet}
+			</BarChart>
+		</Chart.Container>
 	</Card.Content>
+	<Card.Footer>
+		<div class="flex w-full items-start gap-2 text-sm">
+			<div class="grid gap-2">
+				<div class="flex items-center gap-2 leading-none font-medium">
+					Trending up by 5.2% this month <TrendingUpIcon class="size-4" />
+				</div>
+				<div class="text-muted-foreground flex items-center gap-2 leading-none">
+					Showing total visitors for the last 6 months
+				</div>
+			</div>
+		</div>
+	</Card.Footer>
 </Card.Root>
+
+<style>
+	:global(.lc-legend-container) {
+		left: 15%;
+		bottom: -5%;
+	}
+</style>

@@ -19,9 +19,11 @@
 	<div class="flex justify-center">
 		<ButtonsExample />
 	</div>
-	<Container classes="grid grid-cols-1 md:grid-cols-3 gap-6">
+	<Container classes="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
 		<AccountCard />
 		<LineChartCard />
+	</Container>
+	<Container classes="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
 		<AreaChartCard />
 		<BarChartCard />
 	</Container>
