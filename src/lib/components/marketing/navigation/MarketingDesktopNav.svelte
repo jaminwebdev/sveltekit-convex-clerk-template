@@ -7,7 +7,7 @@
 	import SiteLogo from '@/lib/components/SiteLogo.svelte';
 </script>
 
-<div class="border-b-primary/50 border-1">
+<div class="border-b-primary/50 border">
 	<Container classes="max-w-[88rem]">
 		<header class=" flex justify-between p-5">
 			<SiteLogo />
