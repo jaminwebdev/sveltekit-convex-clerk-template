@@ -11,18 +11,17 @@
 
 	const client = useConvexClient();
 
-	const { task, user_id } = $props<{
+	const { task } = $props<{
 		task: Doc<'tasks'>;
-		user_id: string;
 	}>();
 
 	const updateTask = () =>
-		client.mutation(api.tasks.update, { id: task._id, isCompleted: !task.isCompleted, user_id });
+		client.mutation(api.tasks.update, { id: task._id, isCompleted: !task.isCompleted });
 
 	const removeTask = async () => {
 		try {
-			await client.mutation(api.tasks.remove, { id: task._id, user_id });
-			toasts.taskDeleted(client, task, user_id);
+			await client.mutation(api.tasks.remove, { id: task._id });
+			toasts.taskDeleted(client, task);
 		} catch (error) {
 			toasts.error(
 				error instanceof Error ? error.message : 'Something went wrong deleting your task'

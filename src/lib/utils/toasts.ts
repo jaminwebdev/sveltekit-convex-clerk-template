@@ -12,7 +12,7 @@ export const toasts = {
 		toast('Task Created! 🎉', {
 			description: `Body: ${text}`
 		}),
-	taskDeleted: (client: ConvexClient, task: Doc<'tasks'>, user_id: string) =>
+	taskDeleted: (client: ConvexClient, task: Doc<'tasks'>) =>
 		toast('Task deleted', {
 			action: {
 				label: 'Undo',
@@ -20,8 +20,7 @@ export const toasts = {
 					client.mutation(api.tasks.restore, {
 						task: {
 							taskBody: task.taskBody,
-							isCompleted: task.isCompleted,
-							user_id
+							isCompleted: task.isCompleted
 						}
 					});
 				}

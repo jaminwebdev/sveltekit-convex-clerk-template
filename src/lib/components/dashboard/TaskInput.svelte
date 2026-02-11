@@ -9,12 +9,10 @@
 	let mutationLoading = $state(false);
 	const client = useConvexClient();
 
-	const { user_id } = $props<{ user_id: string }>();
-
 	const createTask = async () => {
 		try {
 			mutationLoading = true;
-			await client.mutation(api.tasks.create, { body: taskBody, user_id });
+			await client.mutation(api.tasks.create, { body: taskBody });
 			toasts.taskCreated(taskBody);
 			taskBody = '';
 			mutationLoading = false;

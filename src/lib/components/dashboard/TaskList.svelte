@@ -4,9 +4,7 @@
 	import { api } from '@/convex/_generated/api';
 	import { Skeleton } from '$lib/components/ui/skeleton/index.js';
 
-	const { user_id } = $props<{ user_id: string }>();
-
-	const query = $derived(useQuery(api.tasks.get, { user_id }));
+	const query = useQuery(api.tasks.get);
 </script>
 
 {#if query.isLoading}
@@ -22,7 +20,7 @@
 {:else}
 	<ul class="grid gap-1">
 		{#each query.data as task}
-			<TaskItem {task} {user_id} />
+			<TaskItem {task} />
 		{/each}
 	</ul>
 {/if}
