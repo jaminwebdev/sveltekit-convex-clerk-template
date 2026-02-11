@@ -158,7 +158,7 @@
 		</Select.Root>
 	</Card.Header>
 	<Card.Content>
-		<ChartContainer config={chartConfig} class="aspect-auto h-[250px] w-full">
+		<ChartContainer config={chartConfig} class="aspect-auto h-62.5 w-full">
 			<AreaChart
 				legend
 				data={filteredData}

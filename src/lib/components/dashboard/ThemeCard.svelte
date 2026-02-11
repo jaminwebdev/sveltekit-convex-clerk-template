@@ -16,7 +16,7 @@
 		<Card.Description>Alter the theme here</Card.Description>
 	</Card.Header>
 	<Card.Content>
-		<ScrollArea class="h-[300px] w-full rounded-md border p-4">
+		<ScrollArea class="h-75 w-full rounded-md border p-4">
 			<RadioGroup.Root value={currentTheme} onValueChange={handleThemeChange}>
 				{#each themes as theme}
 					<div class="flex items-center space-x-2">
