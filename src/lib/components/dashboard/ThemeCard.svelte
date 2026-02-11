@@ -13,7 +13,7 @@
 <Card.Root>
 	<Card.Header>
 		<Card.Title>Theme Settings</Card.Title>
-		<Card.Description>Manage your theme here</Card.Description>
+		<Card.Description>Alter the theme here</Card.Description>
 	</Card.Header>
 	<Card.Content>
 		<ScrollArea class="h-[300px] w-full rounded-md border p-4">
