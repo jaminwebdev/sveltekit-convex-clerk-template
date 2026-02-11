@@ -4,7 +4,7 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"convex:dev": "npx convex dev",
+		"convex:dev": "bunx convex dev",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
