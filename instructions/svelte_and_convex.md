@@ -2,7 +2,7 @@
 
 This document outlines the specific architectural pattern used in this project to integrate the SvelteKit frontend with the Convex backend using Clerk for authentication. The pattern ensures that data access is secure and efficient.
 
-In this project we use Svelte and the convex-svelte package together. 
+In this project we use Svelte and the convex-svelte package together.
 
 Here's the documentation/github repo for this package: https://github.com/get-convex/convex-svelte
 
@@ -11,6 +11,7 @@ Here's the documentation/github repo for this package: https://github.com/get-co
 The core of the pattern is a **token-based authorization model**. The SvelteKit client is responsible for obtaining the current user's authentication token (via Clerk) and configuring the Convex client to include this token with every request. The Convex backend then extracts the user's identity from this token to filter data and authorize access to specific documents.
 
 This creates a clear separation of concerns:
+
 - **SvelteKit (Client):** Manages UI, user authentication state via Clerk, and configures the Convex client to send authentication tokens with requests. It also handles an initial loading state to prevent UI errors.
 - **Convex (Backend):** Defines data schema, business logic, and enforces strict data access rules based on the user identity extracted from the provided authentication token.
 
@@ -22,7 +23,8 @@ This creates a clear separation of concerns:
 - The `ConvexClient` is configured with a `tokenFetcher` function that retrieves the JWT from the Clerk session and sends it with every Convex request.
 - An initial loading state is managed to prevent queries from running before the authentication token is available.
 
-*Example (`src/routes/(dashboard)/+layout.svelte`):*
+_Example (`src/routes/(dashboard)/+layout.svelte`):_
+
 ```svelte
 <script lang="ts">
 	import { setupConvex, useConvexClient } from 'convex-svelte';
@@ -50,13 +52,13 @@ This creates a clear separation of concerns:
 </script>
 
 {#if !clerkIsLoaded}
-    <!-- Display a loading indicator while Clerk is loading -->
-    <div class="flex h-screen w-full items-center justify-center text-lg text-gray-500">
-        Loading authentication...
-    </div>
+	<!-- Display a loading indicator while Clerk is loading -->
+	<div class="flex h-screen w-full items-center justify-center text-lg text-gray-500">
+		Loading authentication...
+	</div>
 {:else}
-    <!-- Render dashboard content when Clerk is loaded -->
-    {@render children()}
+	<!-- Render dashboard content when Clerk is loaded -->
+	{@render children()}
 {/if}
 ```
 
@@ -65,7 +67,8 @@ This creates a clear separation of concerns:
 - The Convex backend defines a helper function (`getAuthenticatedClerkId`) that extracts the authenticated Clerk user ID from the `ctx.auth.getUserIdentity()`.
 - This helper centralizes the authentication check and Clerk ID extraction logic, making backend functions cleaner and more secure.
 
-*Example (`src/convex/tasks.ts`):*
+_Example (`src/convex/tasks.ts`):_
+
 ```typescript
 import type { UserIdentity } from 'convex/server';
 import type { QueryCtx, MutationCtx } from './_generated/server';
@@ -74,11 +77,11 @@ import type { QueryCtx, MutationCtx } from './_generated/server';
 const extractClerkId = (identity: UserIdentity) => identity.tokenIdentifier.split('|')[1];
 
 const getAuthenticatedClerkId = async (ctx: QueryCtx | MutationCtx): Promise<string> => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (identity === null) {
-        throw new Error('Not authenticated');
-    }
-    return extractClerkId(identity);
+	const identity = await ctx.auth.getUserIdentity();
+	if (identity === null) {
+		throw new Error('Not authenticated');
+	}
+	return extractClerkId(identity);
 };
 ```
 
@@ -87,7 +90,8 @@ const getAuthenticatedClerkId = async (ctx: QueryCtx | MutationCtx): Promise<str
 - The `convex-svelte` package's `useQuery` hook is used to subscribe to Convex queries.
 - No `user_id` argument is passed from the frontend; the backend extracts the user ID from the authentication context.
 
-*Example (`TaskList.svelte`):*
+_Example (`TaskList.svelte`):_
+
 ```svelte
 <script lang="ts">
 	import { useQuery } from 'convex-svelte';
@@ -100,7 +104,8 @@ const getAuthenticatedClerkId = async (ctx: QueryCtx | MutationCtx): Promise<str
 <!-- UI reacts to query state (isLoading, error, data) -->
 ```
 
-*Example (`tasks.ts` - `get` query):*
+_Example (`tasks.ts` - `get` query):_
+
 ```typescript
 export const get = query({
 	args: {}, // No user_id argument
@@ -119,7 +124,8 @@ export const get = query({
 - The `useConvexClient` hook provides a raw client instance.
 - Mutations are called using `client.mutation()`. No `user_id` argument is passed from the frontend.
 
-*Example (`TaskInput.svelte`):*
+_Example (`TaskInput.svelte`):_
+
 ```svelte
 <script lang="ts">
 	import { useConvexClient } from 'convex-svelte';
@@ -135,7 +141,8 @@ export const get = query({
 </script>
 ```
 
-*Example (`tasks.ts` - `update` mutation):*
+_Example (`tasks.ts` - `update` mutation):_
+
 ```typescript
 export const update = mutation({
 	args: { id: v.id('tasks'), isCompleted: v.boolean() }, // No user_id argument

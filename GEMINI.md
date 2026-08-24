@@ -70,27 +70,23 @@ Keep your explanations brief and to the point.
 Instead of this:
 
 ```ts
-let theResult = "";
+let theResult = '';
 if (someVariable == 42) {
-  theResult = "the answer";
+	theResult = 'the answer';
+} else if (someVariable == 69) {
+	theResult = 'nice';
+} else {
+	theResult = 'nope';
 }
-else if (someVariable == 69) {
-  theResult = "nice";
-}
-else {
-  theResult = "nope";
-}
-return theResult
+return theResult;
 ```
 
 You should write this:
 
 ```ts
-if (someVariable == 42) 
-  return "the answer";
-if (someVariable == 69) 
-  return "nice";
-return "nope";
+if (someVariable == 42) return 'the answer';
+if (someVariable == 69) return 'nice';
+return 'nope';
 ```
 
 Another example. Instead of this:
@@ -102,29 +98,29 @@ const showAdminPanel = () => {
 			if (admin) {
 				seeAdminPanel();
 			} else {
-				console.log('must be an admin')
+				console.log('must be an admin');
 			}
 		} else {
-			console.log('must be logged in')
+			console.log('must be logged in');
 		}
 	} else {
-		console.log('must be connected to wifi')
+		console.log('must be connected to wifi');
 	}
-}
+};
 ```
 
 Do this:
 
 ```ts
 const showAdminPanel = () => {
-	if (!wifi) return handleNoWifi()
-	
-	if (!login) return handleNotLoggedIn()
-	
-	if (!admin) return handleNotAdmin()
-	
+	if (!wifi) return handleNoWifi();
+
+	if (!login) return handleNotLoggedIn();
+
+	if (!admin) return handleNotAdmin();
+
 	seeAdminPanel();
-}
+};
 ```
 
 ## Prefer to use the "object in object out" pattern when writing typescript functions
@@ -133,15 +129,23 @@ So instead of writing this:
 
 ```ts
 function myFunction(firstArg: string, second: number, isSomething?: boolean) {
-  // ...
+	// ...
 }
 ```
 
 You should write:
 
 ```ts
-function myFunction({ firstArg, second, isSomething }: { firstArg: string, second: number, isSomething?: boolean }) {
-  // ...
+function myFunction({
+	firstArg,
+	second,
+	isSomething
+}: {
+	firstArg: string;
+	second: number;
+	isSomething?: boolean;
+}) {
+	// ...
 }
 ```
 
@@ -149,10 +153,10 @@ If the function needs to return multiple values then return an object:
 
 ```ts
 function calculateSomething() {
-  return {
-    theAnswer: 42,
-    reason: "the computer said so"
-  }
+	return {
+		theAnswer: 42,
+		reason: 'the computer said so'
+	};
 }
 ```
 
@@ -162,14 +166,14 @@ Instead of this:
 
 ```ts
 function doSomething(kind: MyKind) {
-  switch (kind) {
-    case "a":
-      return "it was A";
-    case "b":
-      return "it was B";
-    case "c":
-      return "it was C";
-  }
+	switch (kind) {
+		case 'a':
+			return 'it was A';
+		case 'b':
+			return 'it was B';
+		case 'c':
+			return 'it was C';
+	}
 }
 ```
 
@@ -177,9 +181,9 @@ Prefer this:
 
 ```ts
 function doSomething(kind: MyKind) {
-  if (kind === "a") return "it was A";
-  if (kind === "b") return "it was B";
-  if (kind === "c") return "it was C";
+	if (kind === 'a') return 'it was A';
+	if (kind === 'b') return 'it was B';
+	if (kind === 'c') return 'it was C';
 }
 ```
 
@@ -189,7 +193,7 @@ You should never do this:
 
 ```ts
 function doSomething(myObj: { value: string } | null) {
-  console.log(myObj!.value);
+	console.log(myObj!.value);
 }
 ```
 
@@ -197,8 +201,8 @@ Instead do this:
 
 ```ts
 function doSomething(myObj: { value: string } | null) {
-  if (!myObj) throw new Error("myObj is null");
-  console.log(myObj.value);
+	if (!myObj) throw new Error('myObj is null');
+	console.log(myObj.value);
 }
 ```
 
@@ -210,18 +214,20 @@ function doSomething(myObj: { value: string } | null) {
 Example:
 
 ```ts
-async function processData({ input, backup }: { input: string, backup?: string }) {
-  try {
-    return await primaryProcessor(input);
-  } catch (primaryError) {
-    if (!backup) throw new Error("Primary processing failed and no backup provided");
-    
-    try {
-      return await backupProcessor(backup);
-    } catch (backupError) {
-      throw new Error(`Both primary and backup processing failed: ${primaryError.message}, ${backupError.message}`);
-    }
-  }
+async function processData({ input, backup }: { input: string; backup?: string }) {
+	try {
+		return await primaryProcessor(input);
+	} catch (primaryError) {
+		if (!backup) throw new Error('Primary processing failed and no backup provided');
+
+		try {
+			return await backupProcessor(backup);
+		} catch (backupError) {
+			throw new Error(
+				`Both primary and backup processing failed: ${primaryError.message}, ${backupError.message}`
+			);
+		}
+	}
 }
 ```
 
@@ -234,31 +240,31 @@ Instead of this:
 
 ```ts
 enum Status {
-  PENDING = "pending",
-  COMPLETED = "completed", 
-  FAILED = "failed"
+	PENDING = 'pending',
+	COMPLETED = 'completed',
+	FAILED = 'failed'
 }
 ```
 
 Prefer this:
 
 ```ts
-type Status = "pending" | "completed" | "failed";
+type Status = 'pending' | 'completed' | 'failed';
 ```
 
 Example using utility types:
 
 ```ts
 type User = {
-  id: string;
-  name: string;
-  email: string;
-  role: "admin" | "user";
-  createdAt: Date;
-}
+	id: string;
+	name: string;
+	email: string;
+	role: 'admin' | 'user';
+	createdAt: Date;
+};
 
-type CreateUser = Omit<User, "id" | "createdAt">;
-type UpdateUser = Partial<Pick<User, "name" | "email">>;
+type CreateUser = Omit<User, 'id' | 'createdAt'>;
+type UpdateUser = Partial<Pick<User, 'name' | 'email'>>;
 ```
 
 ## Import/Export Patterns

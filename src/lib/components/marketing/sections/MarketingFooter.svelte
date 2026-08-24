@@ -228,9 +228,7 @@
 					</div>
 				</div>
 
-				<div class="border-t py-8 text-center text-sm text-gray-400">
-					© 2025 - HeBuildsWebsites
-				</div>
+				<div class="border-t py-8 text-center text-sm text-gray-400">© 2025 - HeBuildsWebsites</div>
 			</div>
 		</div>
 	</Container>
